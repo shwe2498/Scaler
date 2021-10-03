@@ -1,0 +1,28 @@
+You are given an Array A of size N.
+
+Find for how many elements, there is a strictly smaller element and a strictly greater element.
+
+Example Input:
+    A = [1, 2, 3]
+
+Example Output:
+    1
+
+Explanation:
+    only 2 have a strictly smaller and strictly greater element, 1 and 3 respectively.
+    
+int Solution::solve(vector<int> &A) {
+    int cnt = 0;
+    
+    //1. Get min and max elements
+    int minVal = *min_element(A.begin(), A.end());
+    int maxVal = *max_element(A.begin(), A.end());
+    
+    //2. Iterate and check with min and max
+    for(auto a : A){
+        if(a > minVal && a < maxVal){
+            cnt++;
+        }
+    }
+    return cnt;
+}    
