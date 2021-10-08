@@ -1,0 +1,49 @@
+Length of longest consecutive ones
+Given a binary string A. It is allowed to do at most one swap between any 0 and 1. Find and return the length of the longest consecutive 1’s that can be achieved.
+
+Input 1: A = “111000” Output: 3
+Input 2: A= “111011101” Output: 7
+
+int consecutiveOnes(string A){
+	int all_one = 0;
+	int max_cnt = 0;
+	int temp = 0;
+
+	for(auto a : A){
+		if(a == ‘1’){
+      all_one++; 7
+      temp++; 1
+    }
+    else{
+      max_cnt = max(temp, all_one); 6
+      temp = 0; 3
+    }
+   }
+
+   max_cnt = max(max_cnt, temp); 6
+
+   vector<int> left(A.size());
+   vector<int> right(A.size());
+
+   (A[0] == ‘1’) ? left[0] = 1 : left[0] = 0;
+
+   (A[A.size() - 1] == ‘1’) ? right[A.size() - 1] = 1 : right[A.size() - 1] = 0;
+
+   for(int i = 1; i < A.size(); i++){
+     A[i] == ‘1’ ? left[i] = left[i - 1] + 1 : left[i] = 0;
+   }
+
+   for(int i = A.size() - 2; i >= 0; i--){
+     A[i] == ‘1’ ? right[i] = right[i +1] + 1 : right[i] = 0;
+   }
+
+   for(int i = 1; i < A.size() - 1; i++){
+     if(A[i] == ‘0’){
+       int sum = left[i - 1] + right[i + 1];
+
+       sum < all_one ? max_cnt = max(max_cnt, sum + 1) : max_cnt = max(max_cnt, sum);
+   }
+  }
+  return max_cnt;
+}
+O(length of A)
