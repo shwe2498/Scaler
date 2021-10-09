@@ -1,0 +1,36 @@
+Spiral Order Matrix II
+Given integer A, generate a square matrix filled with elements from 1 to square of A in spiral order.
+Input 1: 1
+Output: [[1]] 
+Input 2 : 2
+Output: [[1,2],[4,3]]
+
+vector<vector<int>> generate(int A){
+	vector<vector<int>> out(A, vector<int>(A));
+	int left = 0;
+	int right = A - 1;
+  int top = 0;
+  int bottom = A - 1;
+  int count = 1;
+
+  while(right >= left && top <= bottom){
+    for(int i = left; i <= right; i++){
+      out[top][i] = count++;
+    } 
+    top++;
+    for(int i = top; i <= bottom; i++){
+      out[i][right] = count++;
+    }
+    right--;
+    for(int i = right; i >= left; i--){
+      out[bottom][i] = count++;
+    }
+    bottom--;
+    for(int i = bottom; i >= top; i--){
+      out[i][left] = count++;
+    }
+    left++;
+  } 
+	return out;
+}
+O(NM)
