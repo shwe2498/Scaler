@@ -1,0 +1,42 @@
+/*
+ Mod String
+ Problem Description
+ You are given a huge number in the form of a string A where each character denotes a digit of the number.
+ You are also given a number B. You have to find out the value of A % B and return it.
+
+ Problem Constraints
+ 1 <= A.size() <= 105
+ 0 <= Ai <= 9
+ 1 <= B <= 109
+
+ Input 1:
+ A = "143"
+ B = 2
+ Output 1:
+ 1
+ Explanation 1:
+ 143 is an odd number so 143 % 2 = 1.
+ 
+ Input 2:
+ A = "43535321"
+ B = 47
+ Output 2:
+ 20
+ Explanation 2:
+ 43535321 % 47 = 20
+*/
+
+#include <iostream>
+using namespace std;
+
+int findMod(string A, int B) {
+    long powerMod = 1;
+    int ans = 0;
+    auto n = A.size() - 1;
+    for(auto i = n; i >= 0; --i){
+        ans = (ans + ((A[i] - '0') % B) * (powerMod)) % B;
+        powerMod = (powerMod * 10) % B;
+    }
+    return ans;
+}
+TC: O(length of string A) SC: O(1)
