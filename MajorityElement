@@ -1,0 +1,56 @@
+/*
+ Majority Element
+ Given an array of size n, find the majority element. The majority element is the element that appears more than floor(n/2) times.
+ You may assume that the array is non-empty and the majority element always exist in the array.
+
+ Example :
+
+ Input : [2, 1, 2]
+ Return  : 2 which occurs 2 times which is greater than 3/2.
+ */
+#include <vector>
+#include <map>
+#include <math.h>
+
+using namespace std;
+
+int majorityElementI(const vector<int> &A) {
+    int count = 1;
+    int curr = A[0];
+    for(auto a : A){
+        if(a == curr){
+            count++;
+        }
+        else{
+            count--;
+        }
+        if(count == 0){
+            curr = a;
+            count = 1;
+        }
+    }
+    count = 0;
+    for(auto a : A){
+        if(a == curr){
+            count++;
+        }
+    }
+    return curr;
+}
+//TC : O(length of A) SC : O(1)
+
+int majorityElement(const vector<int> &A) {
+    map<int, int> m;
+    for(auto a : A){
+        m[a]++;
+    }
+    
+    auto n = A.size();
+    for(auto i : m){
+        if(i.second > floor(n/2)){
+            return i.first;
+        }
+    }
+    return 0;
+}
+//TC: O(length of A) SC: O(size of A)
