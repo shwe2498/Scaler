@@ -1,0 +1,26 @@
+/*
+ MAX - MIN
+ Given an array of integers A and an integer B, find and return the difference of B'th max element and B'th min element of the array A.
+
+ Input 1:
+     A = [1, 2, 3, 4, 5]
+     B = 2
+ Output 1:
+     2   (4 - 2 = 2)
+
+ Input 2:
+     A = [5, 17, 100, 11]
+     B = 1
+ Output 2:
+     95  (100 - 5 = 95)
+
+ */
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int solve(vector<int> &A, int B) {
+    sort(A.begin(), A.end());
+    return A[A.size() - B] - A[B-1];
+}
