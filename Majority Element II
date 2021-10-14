@@ -1,0 +1,106 @@
+/*
+ N/3 Repeat Number
+
+ You're given a read only array of n integers. Find out if any integer occurs more than n/3 times in the array in linear time and constant additional space.
+ If so, return the integer. If not, return -1.
+
+ If there are multiple solutions, return any one.
+
+ Example:
+
+ Input: [1 2 3 1 1]
+ Output: 1
+ 1 occurs 3 times which is more than 5/3 times.
+ */
+
+#include <vector>
+#include <math.h>
+#include <map>
+
+using namespace std;
+
+int repeatedNumberI(const vector<int> &A) {
+    int count1 = 0;
+    int count2 = 0;
+    int n1 = -1;
+    int n2 = -1;
+    
+    for(auto a : A){
+        if(n1 == a){
+            count1++;
+        }
+        else if(n2 == a){
+            count2++;
+        }
+        else if(!count1){
+            n1 = a;
+            count1++;
+        }
+        else if(!count2){
+            n2 = a;
+            count2++;
+        }
+        else{
+            count1--;
+            count2--;
+        }
+    }
+    
+    count1 = count2 = 0;
+    for(auto a : A){
+        if(n1 == a){
+            count1++;
+        }
+        else if(n2 == a){
+            count2++;
+        }
+    }
+    
+    if(count1 > floor(A.size()/3)){
+        return n1;
+    }
+    else if(count2 > floor(A.size()/3)){
+        return n2;
+    }
+    return -1;
+}
+//TC: O(size of A) SC: O(1)
+
+int repeatedNumberII(const vector<int> &A) {
+    map<int, int> m;
+    for(auto a : A){
+        m[a]++;
+    }
+    
+    auto n = A.size();
+    for(auto i : m){
+        if(i.second > floor(n/3)){
+            return i.first;
+        }
+    }
+    return -1;
+}
+//TC: O(size of A) SC: (size of A)
+
+int repeatedNumberIII(const vector<int> &A) {
+    auto n = A.size();
+    
+    for(int i = 0; i < 23; i++)
+    {
+        int index=rand()%n;
+        int elem=A[index];
+        int count=0;
+        for(int i=0;i<n;i++)
+        {
+            if(A[i]==elem)
+            count++;
+        }
+        
+        if(count>n/3)
+        {
+            return elem;
+        }
+    }
+    return -1;
+}
+//TC: O(infinity) SC : O(1)
