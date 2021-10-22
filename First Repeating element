@@ -1,0 +1,23 @@
+/*First Repeating element
+
+Given an integer array A of size N, find the first repeating element in it.
+
+We need to find the element that occurs more than once and whose index of first occurrence is smallest.
+
+If there is no repeating element, return -1.
+
+Input : A = [10, 5, 3, 4, 3, 5, 6] Output : 5 */
+
+int solve(vector<int> &A) {
+    set<int> S;
+    int index = -1;
+    for(int i = A.size() - 1; i >= 0; --i){
+        if(S.find(A[i]) != S.end()){
+            index = i;
+        }
+        else{
+            S.insert(A[i]);
+        }
+    }
+    return index >= 0 ? A[index] : -1;
+}
