@@ -1,0 +1,24 @@
+/*
+Sub-array with 0 sum
+
+Given an array of integers A, find and return whether the given array contains a non-empty subarray with a sum equal to 0.
+
+If the given array contains a sub-array with sum zero return 1 else return 0.
+
+Input 1: A = [1, 2, 3, 4, 5] Output :  0
+Input 2: A = [-1, 1] Output : 1
+*/
+
+int solve(vector<int> &A) {
+    long sum = 0;
+    unordered_set<long> m;
+    for(auto a : A){
+        sum += a;
+        
+        if(sum == 0 || m.find(sum) != m.end()){
+            return 1;
+        }
+        m.insert(sum);
+    }
+    return 0;
+}
