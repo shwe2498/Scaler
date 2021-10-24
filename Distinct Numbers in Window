@@ -1,0 +1,54 @@
+/* Distinct Numbers in Window
+
+You are given an array of N integers, A1, A2 ,..., AN and an integer B. Return the of count of distinct numbers in all windows of size B.
+
+Formally, return an array of size N-B+1 where i'th element in this array contains number of distinct elements in sequence Ai, Ai+1 ,..., Ai+B-1.
+
+NOTE: if B > N, return an empty array.
+
+Input: A = [1, 2, 1, 3, 4, 3] B = 3 Output :[2, 3, 3, 2]
+Explanation :
+ A=[1, 2, 1, 3, 4, 3] and B = 3
+ All windows of size B are
+ [1, 2, 1]
+ [2, 1, 3]
+ [1, 3, 4]
+ [3, 4, 3]
+ So, we return an array [2, 3, 3, 2].
+
+Input: A = [1, 1, 2, 2] B = 1 Output: [1, 1, 1, 1]
+Explanation :
+ Window size is 1, so the output array is [1, 1, 1, 1].
+ */
+ vector<int> dNums(vector<int> &A, int B) {
+    map<int,int> M;
+    vector<int> V;
+    /*for(int i = 0; i < B; i++){
+        M[A[i]]++;
+    }
+    V.push_back(M.size());
+    
+    for(int i = B; i < A.size(); i++){
+        M[A[i]]++;
+        M[A[i - B]]--;
+        if(M[A[i - B]] == 0){
+            M.erase(A[i - B]);
+        }
+        V.push_back(M.size());
+    }*/
+    
+    for(int i = 0; i < A.size(); i++){
+        M[A[i]]++;
+        
+        if(i - B + 1 >= 0){
+            V.push_back(M.size());
+            M[A[i - B + 1]]--;
+            if(M[A[i - B + 1]] == 0){
+                M.erase(A[i - B + 1]);
+            }
+        }
+    }
+    
+    return V;
+}
+//TC :O(N) SC: O(N)
