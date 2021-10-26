@@ -1,0 +1,21 @@
+/* Isalnum()
+You are given a function isalpha() consisting of a character array A.
+
+Return 1 if all the characters of a character array are alphanumeric (a-z, A-Z and 0-9), else return 0.
+
+Input 1: A = ['S', 'c', 'a', 'l', 'e', 'r', 'A', 'c', 'a', 'd', 'e', 'm', 'y', '2', '0', '2', '0'] Output 1: 1
+Input 2: A = ['S', 'c', 'a', 'l', 'e', 'r', '#', '2', '0', '2', '0'] Output 2: 0 */
+
+int solve(vector<char> &A) {
+    bool isValid = true;
+    
+    for(auto a : A){
+        if((a >= 'A' && a <= 'Z') || (a >= 'a' && a <= 'z') || (a >= '0' && a <= '9')){
+            isValid &= true;
+        }
+        else{
+            isValid &= false;
+        }
+    }
+    return isValid ? 1 : 0;
+}
