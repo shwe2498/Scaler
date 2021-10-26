@@ -1,0 +1,22 @@
+/* Simple Reverse
+Given a string A, you are asked to reverse the string and return the reversed string.
+Input 1: A = "scaler" Output 1: "relacs"
+Input 2: A = "academy" Output 2: "ymedaca" */
+
+string solve(string A) {
+    /*int start = 0;
+    int end = A.size();
+    
+    while(start < end){
+        auto t = A[start];
+        A[start] = A[end];
+        A[end] = t;
+    }*/
+    for(int start = 0; start < A.size()/2; start++){
+        auto t = A[start];
+        A[start] = A[A.size()-start-1];
+        A[A.size()-start-1] = t;
+    }
+    return A;
+}
+
