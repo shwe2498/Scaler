@@ -1,0 +1,38 @@
+Sum the Difference
+
+Given an integer array A of size N.
+You have to find all possible non-empty subsequence of the array of numbers and then, for each subsequence, find the difference between the largest and smallest numbers in that subsequence Then add up all the differences to get the number.
+
+As the number may be large, output the number modulo 1e9 + 7 (1000000007).
+
+NOTE: Subsequence can be non-contiguous.
+
+Input 1: A = [1, 2] Output 1: 1
+Explanation 1:
+All possible non-empty subsets are:
+[1]    largest-smallest = 1 - 1 = 0
+[2]    largest-smallest = 2 - 2 = 0
+[1 2]  largest-smallest = 2 - 1 = 1
+Sum of the differences = 0 + 0 + 1 = 1
+So, the resultant number is 1
+
+Input 2: A = [1] Output 2: 0
+Explanation 2:
+Only 1 subsequence of 1 element is formed.
+
+int solve(vector<int> &A) {
+    sort(A.begin(), A.end());
+    int n = A.size();
+    long long int min_sum = 0, max_sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        max_sum = 2 * max_sum + A[n-1-i];
+        max_sum %= 1000000007;
+        min_sum = 2 * min_sum + A[i];
+        min_sum %= 1000000007;
+    }
+ 
+    return (max_sum - min_sum + 1000000007) % 1000000007;
+}
+
+//TC : O(n) SC : O(1)
