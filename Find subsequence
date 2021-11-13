@@ -1,0 +1,27 @@
+Find subsequence
+Given two strings A and B, find if A is a subsequence of B.
+Return "YES" if A is a subsequence of B, else return "NO".
+
+Input 1: A = "bit" B = "dfbkjijgbbiihbmmt" Output 1: "YES"
+Input 2: A = "apple" B = "appel" Output 2: "NO"
+
+string solve(string A, string B) {
+    int nA = A.size();
+    int nB = B.size();
+    
+    if(nA > nB) return "NO";
+    
+    int b = 0, a = 0;
+    while(b < nB && a < nA){
+        if(A[a] == B[b]){
+            a++;
+            b++;
+        }
+        else{
+            b++;
+        }
+    }
+    return (a == nA) ? "YES" : "NO";
+}
+
+//TC : O(n) SC : O(1)
