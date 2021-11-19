@@ -34,3 +34,4 @@ vector<vector<int> > Solution::towerOfHanoi(int A) {
     tohRev(A, 1, 3, 2, out);
     return out;
 }
+//TC : O(2^n) SC : O(n)
