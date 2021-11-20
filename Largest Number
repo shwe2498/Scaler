@@ -1,0 +1,32 @@
+Largest Number
+
+Given a array A of non negative integers, arrange them such that they form the largest number.
+
+Note: The result may be very large, so you need to return a string instead of an integer.
+
+Input 1: A = [3, 30, 34, 5, 9] Output 1: "9534330" Explanation 1: A = [3, 30, 34, 5, 9] Reorder the numbers to [9, 5, 34, 3, 30] to form the largest number.
+Input 2: A = [2, 3, 9, 0] Output 2: "9320" Explanation 2: Reorder the numbers to [9, 3, 2, 0] to form the largest number 9320. 
+
+bool compareN(string a, string b){
+    return a + b > b + a;
+}
+string largestNumber(const vector<int> &A) {
+    string out;
+    
+    vector<string> str;
+    for(auto a : A){
+        str.push_back(to_string(a));
+    }
+    
+    sort(str.begin(), str.end(), compareN);
+    
+    for(auto s : str){
+        out += s;
+    }
+    
+    int pos = 0;
+    while(out[pos] == '0' && pos + 1 < out.size()) pos++;
+    
+    return out.substr(pos);
+}
+//TC : O(nlogn) SC : O(n)
