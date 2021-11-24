@@ -1,0 +1,207 @@
+Design Linked list
+Given a matrix A of size Nx3 representing operations. Your task is to design the linked list based on these operations.
+
+There are four types of operations:
+
+0 x -1: Add a node of value x before the first element of the linked list. After the insertion, the new node will be the first node of the linked list.
+
+1 x -1: Append a node of value x to the last element of the linked list.
+
+2 x index: Add a node of value x before the indexth node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted.
+
+3 index -1: Delete the indexth node in the linked list, if the index is valid.
+
+A[i][0] represents the type of operation.
+
+A[i][1], A[i][2] represents the corresponding elements with respect to type of operation.
+
+Note: Indexing is 0 based.
+
+
+Input Format
+
+The only argument given is matrix A.
+Output Format
+
+Return the pointer to the starting of the linked list.
+Constraints
+
+1 <= Number of operations <= 1000
+1 <= All node values <= 10^9
+For Example
+
+Input 1:
+    A = [   [0, 1, -1]
+            [1, 2, -1]
+            [2, 3, 1]   ]
+Output 1:
+    1->3->2->NULL
+
+Input 2:
+    A = [   [0, 1, -1]
+            [1, 2, -1]
+            [2, 3, 1]
+            [0, 4, -1]
+            [3, 1, -1]
+            [3, 2, -1]
+                       ]
+Output 2:
+    4->3->NULL
+    
+    
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ 
+struct Node {
+    public:
+        int val;
+        Node *next;
+        Node():val(0),next(nullptr){}
+};
+
+class MyLinkedList {
+public:
+    ListNode *head;
+    int size;
+    MyLinkedList():head(nullptr), size(0) {
+       
+    }
+    
+    /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
+    int get(int index) {
+        ListNode *trav = head;
+
+        if(index >= size)
+            return -1;
+        int count = 0;
+        while(trav){
+            if(count == index){
+                return trav->val;
+            }
+            count++;
+            trav = trav->next;
+        }
+        return -1;
+    }
+    
+    /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
+    ListNode* addAtHead(int val) {
+        ListNode *cur = new ListNode(val);
+        cur->val = val;
+        if(head){
+            ListNode* temp = head;
+            head = cur;
+            head->next = temp;
+        }
+        else{
+            head = cur;
+        }
+        size++;
+        return head;
+    }
+    
+    /** Append a node of value val to the last element of the linked list. */
+    ListNode* addAtTail(int val) {
+        ListNode *cur = new ListNode(val);
+        cur->val = val;
+        
+        ListNode *trav = head;
+        
+        if(head){
+            ListNode *trav = head;
+            while(trav->next){
+                trav = trav->next;
+            }
+            trav->next = cur;
+        }
+        else{
+            head = cur;
+        }
+        size++;
+        return head;
+    }
+    
+    /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
+    ListNode* addAtIndex(int index, int val) {
+        if(index > size) return head;
+        if(index == 0){
+            addAtHead(val); return head;
+        }
+        if(index == size){
+            addAtTail(val); return head;
+        }
+        ListNode *trav = head;
+        for(int count = 0; count < index-1; count++){
+                trav = trav->next;
+        }
+        ListNode *cur = new ListNode(val);
+        cur->val = val;
+        cur->next = trav->next;
+        trav->next = cur;
+        
+        size++;
+        return head;
+    }
+    
+    /** Delete the index-th node in the linked list, if the index is valid. */
+    ListNode* deleteAtIndex(int index) {
+        if(index > size) return head;
+        ListNode *temp = nullptr;
+        ListNode *trav = head;
+        if(trav){
+            if(index == 0){
+                head = trav->next;
+                if(trav){
+                   delete(trav); trav = nullptr; 
+                    size--;
+                    return head;
+                } 
+            }
+            for(int count = 0; trav && count < index-1; count++){
+                trav = trav->next;
+            }
+            if(trav && trav->next){
+                trav->next = trav->next->next;
+                size--; 
+            }
+        }
+        return head;
+    }
+};
+
+ListNode* Solution::solve(vector<vector<int> > &A) {
+    MyLinkedList* ll = new MyLinkedList();
+    for(auto a : A){
+        vector<int> v = a;
+        int op = v[0];
+        int val = v[1];
+        int pos = v[2];
+        switch(op){
+            case 0:
+                //add at first
+                ll->addAtHead(val);
+                break;
+            case 1:
+                //add at end
+                ll->addAtTail(val);
+                break;
+            case 2:
+                //add at index
+                ll->addAtIndex(pos,val);
+                break;
+            case 3:
+                //delete at pos
+                ll->deleteAtIndex(val);
+                break;
+            default:
+                cout<<"Invalid operation"<<endl;
+        }
+    }
+    return ll->head;
+}
