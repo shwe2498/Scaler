@@ -1,0 +1,17 @@
+Leap year?
+
+Given an integer A representing an year, Return 1 if it is a leap year else return 0.
+
+A year is leap year if the following conditions are satisfied:
+
+Year is multiple of 400.
+Year is multiple of 4 and not multiple of 100.
+
+Input 1: A = 2020 Output 1: 1 Explanation 1: 2020 is a leap year.
+Input 2: A = 1999 Output 2: 0 Explanation 2: 1999 is not a leap year.
+
+int solve(int A) {
+    return ((A % 400 == 0) || ((A % 4 == 0) && (A % 100 != 0))) ? 1 : 0;
+}
+
+TC : O(1) SC : O(1)
