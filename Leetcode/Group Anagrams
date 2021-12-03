@@ -1,0 +1,31 @@
+/* Group Anagrams
+Given an array of strings strs, group the anagrams together. You can return the answer in any order.
+
+An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.
+
+Example 1: Input: strs = ["eat","tea","tan","ate","nat","bat"] Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+
+Example 2: Input: strs = [""] Output: [[""]]
+
+Example 3: Input: strs = ["a"] Output: [["a"]] */
+
+	vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        map<vector<int>, vector<string>> M;
+        
+        for(auto s : strs){
+            vector<int> V(26, 0);
+            for(auto w : s){
+                V[w - 'a'] += 1;
+            }
+            M[V].push_back(s);
+        }
+        
+        vector<vector<string>> S;
+        for(auto m : M){
+            if(m.second.size() != 0){
+                S.push_back(m.second);
+            }
+        }
+        
+        return S;
+    }
