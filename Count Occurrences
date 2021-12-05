@@ -1,0 +1,20 @@
+Count Occurrences
+Find number of occurrences of bob in the string A consisting of lowercase english alphabets.
+
+Input 1: "abobc" Output 1: 1 Explanation 1: The only occurrence is at second position.
+Input 2: "bobob" Output 2: 2 Explanation 2: Bob occures at first and third position.
+
+int solve(string A) {
+    int start = 0;
+    int end = 3; //length of bob string
+    int result = 0;
+    while((start + end - 1) <= A.size()){
+        if(A.substr(start, end) == "bob"){
+            result++;
+        }
+        start++;
+    }
+    
+    return result;
+}
+
