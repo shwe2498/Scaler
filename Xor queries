@@ -1,0 +1,55 @@
+Xor queries
+
+You are given an array A (containing only 0 and 1) as element of N length.
+Given L and R, you need to determine value of XOR of all elements from L to R (both inclusive) and number of unset bits (0's) in the given range of the array.
+
+Example Input
+A=[1,0,0,0,1]
+B=[ [2,4],
+    [1,5],
+    [3,5] ]
+
+
+Example Output
+[[0 3]
+[0 3]
+[1 2]]
+
+
+Example Explanation
+In the given case the bit sequence is of length 5 and the sequence is 1 0 0 0 1. 
+For query 1 the range is (2,4), and the answer is (array[2] xor array[3] xor array[4]) = 0, and number of zeroes are 3, so output is 0 3. 
+Similarly for other queries.
+
+vector<vector<int> > Solution::solve(vector<int> &A, vector<vector<int> > &B) {
+    vector<vector<int>> result;
+    vector<int> pxor(A.size());
+    vector<int> pbs(A.size());
+    
+    pxor[0] = A[0];
+    
+    (A[0] == 0) ? pbs[0] = 1 : pbs[0] = 0;
+    
+    for(int  i = 1; i < A.size(); i++){
+        pxor[i] = pxor[i-1] ^ A[i];
+        (A[i] == 0) ? pbs[i] = pbs[i-1] + 1 : pbs[i] = pbs[i-1];
+    }
+    
+    for(auto b : B){
+        int start = b[0] - 1;
+        int end = b[1] - 1;
+        vector<int> v;
+        if(start != 0){
+            v.push_back(pxor[end] ^ pxor[start-1]);
+            v.push_back(pbs[end] - pbs[start-1]);
+        }
+        else{
+            v.push_back(pxor[end]);
+            v.push_back(pbs[end]);
+        }
+        result.push_back(v);
+    }
+    return result;
+}
+
+//TC : O(nq) SC : O(n) 
