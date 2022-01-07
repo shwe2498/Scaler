@@ -1,0 +1,24 @@
+/* Find a peak element
+Given an array of integers A, find and return the peak element in it. An array element is peak if it is NOT smaller than its neighbors.
+
+For corner elements, we need to consider only one neighbor. We ensure that answer will be unique.
+
+NOTE: Users are expected to solve this in O(log(N)) time.
+
+Input 1: A = [1, 2, 3, 4, 5] Output 1: 5 Explanation 1: 5 is the peak.
+Input 2: A = [5, 17, 100, 11] Output 2: 100 Explanation 2: 100 is the peak. */
+
+int findPeak(vector<int> &A) {
+    int start = 0;
+    int end = A.size() - 1;
+    while(start < end){
+        int mid = start + (end - start) / 2;
+        if(A[mid] < A[mid + 1]){
+            start = mid + 1;
+        }
+        else{
+            end = mid;
+        }
+    }
+    return A[start];
+}
