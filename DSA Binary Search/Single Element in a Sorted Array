@@ -1,0 +1,25 @@
+/* Single Element in a Sorted Array
+Given a sorted array of integers A where every element appears twice except for one element which appears once, find and return this single element that appears only once.
+
+NOTE: Users are expected to solve this in O(log(N)) time.
+
+Input 1: A = [1, 1, 7] Output 1: 7 Explanation 1: 7 appears once
+Input 2: A = [2, 3, 3] Output 2: 2 Explanation 2: 2 appears once */
+
+int solve(vector<int> &A) {
+    int start = 0;
+    int end = A.size() - 1;
+    int mid = 0;
+
+    if(end == 0) return A[0];
+    else if(A[start] != A[start + 1]) return A[start];
+    else if(A[end] != A[end - 1]) return A[end];
+
+    while(start <= end){
+        mid = (start + end) / 2;
+        if(A[mid] != A[mid + 1] && A[mid] != A[mid - 1]) return A[mid];
+        if((mid % 2 == 0 && A[mid] == A[mid + 1]) || (mid % 2 == 1 && A[mid] == A[mid - 1])) start = mid + 1;
+        else end = mid - 1; 
+    }
+    return -1;
+}
