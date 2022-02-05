@@ -1,0 +1,44 @@
+/* Aggressive cows
+
+Farmer John has built a new long barn, with N stalls. 
+Given an array of integers A of size N where each element of the array represents the location of the stall, and an integer B which represent the number of cows.
+His cows don't like this barn layout and become aggressive towards each other once put into a stall. 
+To prevent the cows from hurting each other, John wants to assign the cows to the stalls, such that the minimum distance between any two of them is as large as possible. What is the largest minimum distance?
+
+Input 1: A = [1, 2, 3, 4, 5] B = 3 Output 1: 2 Explanation 1: John can assign the stalls at location 1,3 and 5 to the 3 cows respectively.So the minimum distance will be 2.
+Input 2: A = [1, 2] B = 2 Output 2: 1 Explanation 2: The minimum distance will be 1.
+
+bool canPlaceCow(vector<int> &A, int B, int dist){
+    int start = A[0];
+    int count = 1;
+    for(int i = 1; i < A.size(); i++){//O(n)
+        if(A[i] - start >= dist){//check the dist between cows 
+            count++;
+            start = A[i];
+        }
+
+        if(count == B){
+            return true;//all cows placed
+        }
+    }
+    return false;
+}
+
+int solve(vector<int> &A, int B) {
+    sort(A.begin(), A.end()); //sort to get max dist O(nlogn)
+    int low = 1;
+    int high = A[A.size() - 1] - A[0]; //max dist
+    int ans = 0;
+    while(low <= high){//O(logn)
+        int mid = (low + high) >> 1;
+        if(canPlaceCow(A, B, mid)){ //check the possible place of cow
+            ans = mid;
+            low = mid + 1;//got one min place optimize the search scope from right to left
+        }
+        else{
+            high = mid - 1;//too far so optimize the search scope from left to right
+        }
+    }
+    return ans;
+}
+//O(nlogn) + (O(logn) *O(n)) => O(nlogn)
