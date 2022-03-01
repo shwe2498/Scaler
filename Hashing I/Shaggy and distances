@@ -1,0 +1,21 @@
+Shaggy and distances
+Shaggy has an array A consisting of N elements. We call a pair of distinct indices in that array as a special pair if elements at that index in the array are equal.
+
+Shaggy wants you to find a special pair such that distance between that pair is minimum. Distance between two indices is defined as |i-j|. If there is no special pair in the array then return -1.
+
+int solve(vector<int> &A) {
+    map<int, int> M;
+    int min_poss_dist = INT_MAX;
+
+    for(int i = 0; i < A.size(); i++){
+        if(M.find(A[i]) != M.end()){
+            min_poss_dist = min(min_poss_dist, i - M[A[i]]);
+        }
+        M[A[i]] = i;
+    }
+    if(min_poss_dist == INT_MAX){
+        min_poss_dist = -1;
+    }
+    return min_poss_dist;
+}
+TC : O(N) SC :O(N)
