@@ -1,0 +1,32 @@
+Largest Continuous Sequence Zero Sum
+Given an array A of N integers.
+
+Find the largest continuous sequence in a array which sums to zero.
+Example Input A = [1,2,-2,4,-4]
+Example Output [2,-2,4,-4]
+Example Explanation [2,-2,4,-4] is the longest sequence with total sum of zero.
+
+vector<int> Solution::lszero(vector<int> &A) {
+    unordered_map<int,int> mp;
+    int sum = 0, start = -1, end = -2;
+    for(int i = 0; i < A.size(); i++){
+        sum += A[i];
+        if(sum == 0 && (i > end - start)){
+            start = -1;
+            end = i;
+        }
+        else if(mp.find(sum) != mp.end()){
+            if(i - mp[sum] > end - start){
+                start = mp[sum];
+                end = i;
+            }
+        }
+        else mp[sum] = i;
+    }
+    start++;
+    vector<int> result;
+    for(int i = start; i <= end; i++) result.push_back(A[i]);
+    return result;
+}
+
+TC : O(N) SC : O(N)
