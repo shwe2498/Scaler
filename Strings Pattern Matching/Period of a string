@@ -1,0 +1,43 @@
+Period of a string
+Given a string A of length N consisting of lowercase alphabets. Find the period of the string.
+
+Period of the string is the minimum value of k (k >= 1), that satisfies A[i] = A[i % k] for all valid i.
+Input 1: A = "abababab" Output 1: 2 Explanation 1: Period of the string will be 2: Since, for all i, A[i] = A[i%2]. 
+Input 2: A = "aaaa" Output 2: 1 Explanation 2: Period of the string will be 1.
+
+vector<int> calculateZ(string A){
+    int n = A.size();
+    vector<int> z(n, 0);
+    int L = 0, R = 0, i = 1;
+    for(; i < n; i++){
+        if(i > R){
+            L = R = i;
+            while(R < n && A[R - L] == A[R]) R++;
+            z[i] = R - L;
+            R--;
+        }
+        else{
+            int k = i - L;
+            if(z[k] < R - i + 1) z[i] = z[k];
+            else{
+                L = i;
+                while(R < n && A[R - L] == A[R]) R++;
+                z[i] = R - L;
+                R--;
+            }
+        }
+    }
+    return z;
+}
+int solve(string A) {
+    int n = A.size();
+    if(n == 1) return 1;
+
+    auto Z = calculateZ(A);
+    for(int i = 1; i < n; i++){
+        if(Z[i] == n-i) return i;
+    }
+    return n;
+}
+
+TC : O(N) SC :O(N)
