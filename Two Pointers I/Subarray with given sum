@@ -1,0 +1,32 @@
+Subarray with given sum
+Given an array of positive integers A and an integer B, find and return first continuous subarray which adds to B.
+If the answer does not exist return an array with a single element "-1".
+First sub-array means the sub-array for which starting index in minimum.
+
+Input 1: A = [1, 2, 3, 4, 5] B = 5 Output 1: [2, 3] Explanation 1: [2, 3] sums up to 5.
+Input 2: A = [5, 10, 20, 100, 105] B = 110 Output 2: -1 Explanation 2: No subarray sums up to required number.
+
+vector<int> solve(vector<int> &A, int B) {
+    vector<int> out;
+    int start = 0;
+    long sum = A[0];
+    int end = -1;
+    for(int i = 1; i <= A.size(); i++){
+        while(sum > B && start < i - 1){
+            sum -= A[start];
+            start++;
+        }
+        if(sum == B){
+            end = i;
+             for(int j = start; j < end; j++){
+                out.push_back(A[j]);
+            }
+            return out;
+        }
+        if(i < A.size()){
+            sum += A[i];
+        }
+    }
+
+    return {-1};
+}
