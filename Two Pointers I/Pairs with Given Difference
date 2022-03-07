@@ -1,0 +1,55 @@
+Pairs with Given Difference
+Given an one-dimensional integer array A of size N and an integer B.
+
+Count all distinct pairs with difference equal to B.
+
+Here a pair is defined as an integer pair (x, y), where x and y are both numbers in the array and their absolute difference is B.
+Input 1: A = [1, 5, 3, 4, 2] B = 3 Output 1: 2 Explanation 1: There are 2 unique pairs with difference 3, the pairs are {1, 4} and {5, 2} 
+Input 2: A = [8, 12, 16, 4, 0, 20] B = 4 Output 2: 5 Explanation 2: There are 5 unique pairs with difference 4, the pairs are {0, 4}, {4, 8}, {8, 12}, {12, 16} and {16, 20} 
+Input 3: A = [1, 1, 1, 2, 2] B = 0 Output 3: 2 Explanation 3:  There are 2 unique pairs with difference 0, the pairs are {1, 1} and {2, 2}.
+
+int Solution::solve(vector<int> &A, int B){
+    /* TC : O(N) SC : O(N + N)
+    map<int, int> M;
+    for(auto a : A){
+        M[a]++;
+    }
+    int count = 0;
+    set<int> S(A.begin(), A.end());
+    for(auto a : S){
+        if(B == 0){
+            if(M[a] > 1) count++;
+        }
+        else{
+            if(M[B + a] >= 1) count++;
+        }
+    }
+    return count;*/
+
+    unordered_set<int> s;
+    for (int i : A){
+        s.insert(i);
+    }
+    A.assign( s.begin(), s.end());
+    sort(A.begin(), A.end());
+    if(A.size() == 1 && B == 0) return 1;
+    int count = 0;
+    int pt1 = 0;
+    int pt2 = 1;
+    while(pt1 < A.size() && pt2 < A.size()){
+        int diff = abs(A[pt1] - A[pt2]);
+        if(pt1 != pt2 && diff == B){
+            count++;
+            pt1++, pt2++;
+        }
+        else if(diff > B){
+            pt1++;
+        }
+        else{
+            pt2++;
+        }
+    }
+    return count;
+}
+
+
