@@ -1,0 +1,53 @@
+Pairs with given sum II
+Given a sorted array of integers (not necessarily distinct) A and an integer B, find and return how many pair of integers ( A[i], A[j] ) such that i != j have sum equal to B.
+
+Since the number of such pairs can be very large, return number of such pairs modulo (109 + 7).
+Input 1: A = [1, 1, 1] B = 2 Output 1: 3 Explanation 1: Any two pairs sum up to 2.
+
+Input 2: A = [1, 1] B = 2 Output 2: 1 Explanation 2: only pair (1, 2) sums up to 2.
+
+int solve(vector<int> &A, int B) {
+    int start = 0;
+    int end = A.size() - 1;
+    int no_of_pairs = 0;
+    auto MOD = 1000000007;
+
+    while(start < end){
+        int sum = A[start] + A[end];
+        if(sum < B){
+            start++;
+        }
+        else if(sum > B){
+            end--;
+        }
+        else{
+            long count_start_element = 0;
+            int start_element = A[start];
+            while(start < end && A[start] == start_element){
+                count_start_element++;
+                start++;
+            }
+            if(start_elemnet != A[end] && A[start] == A[end]){
+                start--;
+            }
+            
+            long count_end_element = 1;
+            int end_element = A[end];
+            end--;
+            while(end > start && A[end] == end_element){
+                count_end_element++;
+                end--;
+            }
+            if(start_element == end_element){
+                no_of_pairs = ((no_of_pairs % MOD) + (count_start_element * (count_start_element + 1) / 2)) % MOD;   
+            }
+            else{
+                no_of_pairs += count_start_element * count_end_element * 1l;
+                no_of_pairs = no_of_pairs % MOD;
+            }                
+        }
+    }
+    return no_of_pairs % MOD;
+}
+
+TC : O(N) SC : O(1)
