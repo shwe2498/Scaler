@@ -1,0 +1,45 @@
+Window String
+Given a string A and a string B, find the window with minimum length in A, which will contain all the characters in B in linear time complexity.
+Note that when the count of a character c in B is x, then the count of c in the minimum window in A should be at least x.
+
+Note:
+
+If there is no such window in A that covers all characters in B, return the empty string.
+If there are multiple such windows, return the first occurring minimum window ( with minimum start index and length )
+
+Input 1: A = "ADOBECODEBANC" B = "ABC" Output 1: "BANC" Explanation 1: "BANC" is a substring of A which contains all characters of B.
+
+Input 2: A = "Aa91b" B = "ab" Output 2: "a91b" Explanation 2: "a91b" is the substring of A which contains all characters of B.
+
+string minWindow(string A, string B) {
+    int left = 0;
+    int right = 0;
+    int count = INT_MAX;
+    int start = 0;
+    int A_len = A.size();
+    int B_len = B.size();
+    vector<int> dp(256, 0);
+
+    for(auto b : B){
+        dp[b]++;
+    }
+    while(right < A_len){
+        if(--dp[A[right]] >= 0){
+            B_len--;
+        }
+        while(B_len == 0){
+            if(right - left + 1 < count){
+                count = right - left + 1;
+                start = left;
+            }
+
+            if(++dp[A[left++]] > 0){
+                B_len++;
+            }
+        }
+        
+        right++;
+    }
+    return count == INT_MAX ? "" : A.substr(start, count);
+}
+TC : O(|A|), where |A| is the length of string A. SC : O(1)  
