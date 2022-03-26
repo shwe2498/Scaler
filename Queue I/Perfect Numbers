@@ -1,0 +1,51 @@
+Perfect Numbers
+Given an integer A, you have to find the Ath Perfect Number.
+
+A Perfect Number has the following properties:
+
+It comprises only 1 and 2.
+
+The number of digits in a Perfect number is even.
+
+It is a palindrome number.
+
+For example, 11, 22, 112211 are Perfect numbers, where 123, 121, 782, 1 are not.
+Input 1: A = 2 Output 1: 22 
+Explanation 1: First four perfect numbers are:
+1. 11
+2. 22
+3. 1111
+4. 1221
+
+Input 2: A = 3 Output 2: 1111
+Explanation 2: First four perfect numbers are:
+1. 11
+2. 22
+3. 1111
+4. 1221
+
+string solve(int A) {
+    queue<string> Q;
+    string AthPerfectNumber;
+    int count = 1;
+
+    Q.push("1");
+    Q.push("2");
+
+    while(count <= A){
+        string t = Q.front();
+        Q.push(t + "1");
+        Q.push(t + "2");
+
+        Q.pop();
+
+        for(int c = t.size() - 1; c >= 0; c--){
+            t += t[c];
+        }
+        AthPerfectNumber = t;
+        count++;
+    }
+
+    return AthPerfectNumber;
+}
+
