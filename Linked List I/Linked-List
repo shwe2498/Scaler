@@ -1,0 +1,144 @@
+Linked-List
+Design and implement a Linked List data structure.
+A node in a linked list should have the following attributes - an integer value and a pointer to the next node. It should support the following operations:
+
+insert_node(position, value) - To insert the input value at the given position in the linked list.
+delete_node(position) - Delete the value at the given position from the linked list.
+print_ll() - Print the entire linked list, such that each element is followed by a single space.
+
+Example Input
+5
+i 1 23
+i 2 24
+p
+d 1
+p
+
+Example Output
+23 24
+24
+
+Example Explanation
+After first two cases linked list contains two elements 23 and 24.
+At third case print: 23 24.
+At fourth case delete value at first position, only one element left 24.
+At fifth case print: 24.
+
+#include<iostream>
+using namespace std;
+
+struct Node{
+    int val;
+    Node* next;
+
+    Node(int v): val(v), next(nullptr){}
+};
+
+class LinkedList{
+public:
+    Node* head;
+    int size;
+
+    LinkedList():head(nullptr), size(0){}
+
+    Node* addAtHead(int val){
+        Node* newNode = new Node(val);
+
+        if(head){
+            newNode-> next = head;
+        }
+        head = newNode;
+        size++;
+
+        return head;
+    }
+
+    Node* addAtEnd(int val){
+        Node* newNode = new Node(val);
+        if(head){
+            Node* trav = head;
+            while(trav->next){
+                trav = trav->next;
+            }
+            trav->next = newNode;
+        }
+        else{
+            head = newNode;
+        }
+        size++;
+        return head;
+    }
+
+    Node* addAtIndex(int index, int val){
+        if(index > size + 1) return head;
+        if(index == 1){
+            return addAtHead(val);
+        }
+        if(index == size + 1){
+            return addAtEnd(val);
+        }
+        Node* trav = head;
+        for(int i = 1; i < index - 1; i++){
+            trav = trav->next;
+        }
+        Node* n = new Node(val);
+        n->next = trav->next;
+        trav->next = n;
+        size++;
+        return head;
+    }
+
+    Node* deleteAtIndex(int index){
+        if(index > size) return head;
+        
+        Node* trav = head;
+        if(trav){
+            if(index == 1){
+                head = trav->next;
+                if(trav){
+                    delete trav;
+                    trav = nullptr;
+                }
+                size--;
+                return head;
+            }
+
+            for(int i = 1; trav && i < index - 1; i++){
+                trav = trav->next;
+            }
+            if(trav && trav->next){
+                trav->next = trav->next->next;
+                size--;
+            }
+        }
+        return head;
+    }
+};
+
+LinkedList ll;
+void insert_node(int position, int value) {
+    // @params position, integer
+    // @params value, integer
+    ll.addAtIndex(position, value);
+}
+
+void delete_node(int position) {
+    // @params position, integer
+    ll.deleteAtIndex(position);
+}
+
+
+void print_ll() {
+    // Output each element followed by a space
+    Node* temp = ll.head;
+    while(temp){
+        if(temp->next){
+            cout<<temp->val;
+            cout<<" ";
+        }
+        else{
+            cout<<temp->val;
+        }
+        temp = temp->next;
+    }
+}
