@@ -1,0 +1,40 @@
+K reverse linked list
+Given a singly linked list A and an integer B, reverse the nodes of the list B at a time and return the modified linked list.
+Input 1: A = [1, 2, 3, 4, 5, 6] B = 2 Output 1: [2, 1, 4, 3, 6, 5] 
+Explanation 1: For the first example, the list can be reversed in groups of 2.
+    [[1, 2], [3, 4], [5, 6]]
+ After reversing the K-linked list
+    [[2, 1], [4, 3], [6, 5]]
+
+Input 2: A = [1, 2, 3, 4, 5, 6] B = 3 Output 2: [3, 2, 1, 6, 5, 4]
+Explanation 2: For the second example, the list can be reversed in groups of 3.
+    [[1, 2, 3], [4, 5, 6]]
+ After reversing the K-linked list
+    [[3, 2, 1], [6, 5, 4]]
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+ListNode* reverseList(ListNode* A, int B) {
+    if(B == 0 || !A) return A;
+    int nodeCount = B;
+    ListNode* temp = nullptr;
+    ListNode* reverseListHead = nullptr;
+    ListNode* firstNode = A;
+
+    while(nodeCount > 0 && A){
+        temp = A;
+        A = A->next;
+        temp->next = reverseListHead;
+        reverseListHead = temp;
+        nodeCount--;
+    }
+    firstNode->next = reverseList(A, B);
+
+    return reverseListHead;
+}
