@@ -1,0 +1,52 @@
+Nodes Sum
+You are given the root node of a binary tree A. You have to find the sum of node values of this tree.
+Input 1:
+ Values =  1 
+          / \     
+         4   3                        
+Output 1: 8 
+Explanation 1: Clearly, 1 + 4 + 3 = 8.
+Input 2:
+ Values =  1      
+          / \     
+         8   3                       
+        /         
+       2                            
+Output 2: 14 
+Explanation 2: Clearly, 1 + 8 + 3 + 2 = 14.
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int solve(TreeNode* A) {
+    if(!A) return 0;
+
+    //Iterative Approach
+    int sum = 0;
+    queue<TreeNode*> Q;
+    Q.push(A);
+
+    while(!Q.empty()){
+        TreeNode* t = Q.front();
+        Q.pop();
+
+        sum += t->val;
+
+        if(t->left){
+            Q.push(t->left);
+        }
+
+        if(t->right){
+            Q.push(t->right);
+        }
+    }
+    return sum;
+    //recursive approach
+    //return A->val + solve(A->left) + solve(A->right);
+}
