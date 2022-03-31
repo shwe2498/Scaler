@@ -1,0 +1,42 @@
+Tree Height
+You are given the root node of a binary tree A. You have to find the height of the given tree.
+
+A binary tree's height is the number of nodes along the longest path from the root node down to the farthest leaf node.
+Input 1:
+ Values =  1 
+          / \     
+         4   3                        
+Output 1:  2
+Explanation 1:
+ Distance of node having value 1 from root node = 1
+ Distance of node having value 4 from root node = 2 (max)
+ Distance of node having value 3 from root node = 2 (max)
+ 
+Input 2:
+ Values =  1      
+          / \     
+         4   3                       
+        /         
+       2                
+Output 2: 3 
+Explanation 2:
+ Distance of node having value 1 from root node = 1
+ Distance of node having value 4 from root node = 2
+ Distance of node having value 3 from root node = 2
+ Distance of node having value 2 from root node = 3 (max)
+ 
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int solve(TreeNode* A) {
+    if(!A) return 0;
+    int l = solve(A->left);
+    int r = solve(A->right);
+    return max(l, r) + 1;
+}
