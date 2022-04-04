@@ -1,0 +1,37 @@
+Nodes Max
+You are given the root node of a binary tree A. You have to find the max value of all node values of this tree.
+Input 1:
+ Values =  1 
+          / \     
+         4   3                        
+Output 1: 4 
+Explanation 1: Clearly, among 1, 4, 3: 4 is maximum.
+
+Input 2:
+ Values =  1      
+          / \     
+         8   3                       
+        /         
+       2   
+Output 2: 8 
+Explanation 2: Clearly, among 1, 8, 3, 2: 8 is maximum.
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+int solve(TreeNode* A) {
+    if(!A) return 0;
+
+    int mx = A->val;
+    int lmx = solve(A->left);
+    int rmx = solve(A->right);
+    mx = max(lmx, mx);
+    mx = max(rmx, mx);
+    return mx;
+}
