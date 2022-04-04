@@ -1,0 +1,62 @@
+Postorder Traversal
+Given a binary tree, return the Postorder traversal of its nodes' values.
+
+NOTE: Using recursion is not allowed.
+Input 1:
+
+   1
+    \
+     2
+    /
+   3
+Output 1: [3, 2, 1]
+Explanation 1: The Preoder Traversal of the given tree is [3, 2, 1].
+
+Input 2:
+
+   1
+  / \
+ 6   2
+    /
+   3
+Output 2: [6, 3, 2, 1]
+Explanation 2: The Preoder Traversal of the given tree is [6, 3, 2, 1].
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+vector<int> postorderTraversal(TreeNode* A) {
+    if(!A) return{};
+
+    vector<int>postOrder;
+    TreeNode* cur = A;
+    while(cur){
+        if(!cur->right){
+            postOrder.push_back(cur->val);
+            cur = cur->left;
+        }
+        else{
+            TreeNode* next = cur->right;
+            while(next->left && next->left != cur){
+                next = next->left;
+            }
+            if(!next->left){
+                next->left = cur;
+                postOrder.push_back(cur->val);
+                cur = cur->right;
+            }
+            else{
+                next->left = nullptr;
+                cur = cur->left;
+            }
+        }
+    }
+    reverse(postOrder.begin(),postOrder.end());
+    return postOrder;
+}
