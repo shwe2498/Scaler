@@ -1,0 +1,87 @@
+Vertical Order traversal
+Given a binary tree, return a 2-D array with vertical order traversal of it. Go through the example and image for more details.
+
+NOTE: If 2 Tree Nodes shares the same vertical level then the one with lesser depth will come first.
+
+Input 1:
+
+      6
+    /   \
+   3     7
+  / \     \
+ 2   5     9
+Output 1:
+
+ [
+    [2],
+    [3],
+    [6, 5],
+    [7],
+    [9]
+ ]
+
+Input 2:
+
+      1
+    /   \
+   3     7
+  /       \
+ 2         9
+
+
+Output 2:
+
+ [
+    [2],
+    [3],
+    [1],
+    [7],
+    [9]
+ ]
+Explanation 1: First row represent the verical line 1 and so on.
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+vector<vector<int> > verticalOrderTraversal(TreeNode* A) {
+    vector<vector<int>> out;
+    if(!A) return out;
+
+    map<int, vector<int>> mapVerticalVals;
+    queue<pair<int, TreeNode*>> queuePairLevelNode;
+    queuePairLevelNode.push({0, A});
+
+    while(!queuePairLevelNode.empty()){
+        map<int, vector<int>> mapLevelVal;
+        int n = queuePairLevelNode.size();
+
+        for(int index = 0; index < n; index++){
+            pair<int, TreeNode*> t = queuePairLevelNode.front();
+            queuePairLevelNode.pop();
+
+            mapLevelVal[t.first].push_back(t.second->val);
+            if(t.second->left)
+                queuePairLevelNode.push({t.first - 1, t.second->left});
+            if(t.second->right)
+                queuePairLevelNode.push({t.first + 1, t.second->right});
+        }
+
+        for(auto s : mapLevelVal){
+            auto st = s.second;
+            for(auto i : st)
+                mapVerticalVals[s.first].push_back(i);
+        }
+    }
+
+    for(auto m : mapVerticalVals){
+        out.push_back(m.second);
+    }
+
+    return out;
+}
