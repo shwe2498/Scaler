@@ -1,0 +1,52 @@
+Binary Tree From Inorder And Preorder
+Given preorder and inorder traversal of a tree, construct the binary tree.
+
+NOTE: You may assume that duplicates do not exist in the tree.
+Input 1: A = [1, 2, 3] B = [2, 1, 3]
+Output 1:
+   1
+  / \
+ 2   3
+
+Input 2: A = [1, 6, 2, 3] B = [6, 1, 3, 2]
+Output 2:
+   1  
+  / \
+ 6   2
+    /
+   3
+Explanation 1: Create the binary tree and return the root node of the tree.
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+unordered_map<int, int> uMap;
+vector<int> preorder;
+
+TreeNode* build(int s, int e, int& idx){
+    if(s > e) return nullptr;
+
+    int pre_root_val = preorder[idx++];
+    TreeNode* root = new TreeNode(pre_root_val);
+
+    if(s == e) return root;
+    int inoder_index = uMap[pre_root_val];
+
+    root->left = build(s, inoder_index - 1, idx);
+    root->right = build(inoder_index + 1, e, idx);
+    return root;
+}
+TreeNode* buildTree(vector<int> &A, vector<int> &B) {
+    for(int i = 0; i < B.size(); i++)
+        uMap[B[i]] = i;
+    
+    preorder = A;
+    int idx = 0;
+    return build(0, B.size() - 1, idx);
+}
