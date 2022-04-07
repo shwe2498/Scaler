@@ -1,0 +1,61 @@
+Left View of Binary tree
+Given a binary tree of integers. Return an array of integers representing the left view of the Binary tree.
+
+Left view of a Binary Tree is a set of nodes visible when the tree is visited from Left side
+
+NOTE: The value comes first in the array which have lower level
+
+Input 1:    1
+          /   \
+         2    3
+        / \  / \
+       4   5 6  7
+      /
+     8 
+Output 1: [1, 2, 4, 8]
+Input 2:    1
+           /  \
+          2    3
+           \
+            4
+             \
+              5
+Output 2: [1, 2, 4, 5]
+Explanation 1: The Left view of the binary tree is returned.
+
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+vector<int> solve(TreeNode* A) {
+    vector<int> left_nodes;
+    if(!A) return left_nodes;
+
+    queue<TreeNode*> node_queue;
+    node_queue.push(A);
+
+    while(!node_queue.empty()){
+        int n = node_queue.size();
+        for(int i = 0; i < n; i++){
+            TreeNode* t = node_queue.front();
+            node_queue.pop();
+
+            if( i == 0)
+                left_nodes.push_back(t->val);
+
+            if(t->left){
+                node_queue.push(t->left);
+            }
+            if(t->right){
+                node_queue.push(t->right);
+            }
+        }
+    }
+
+    return left_nodes;
+}
