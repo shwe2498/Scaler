@@ -1,0 +1,74 @@
+Reverse Link List II
+Reverse a linked list A from position B to C.
+
+NOTE: Do it in-place and in one-pass.
+
+Example Input
+Input 1:
+ A = 1 -> 2 -> 3 -> 4 -> 5
+ B = 2
+ C = 4
+Output 1: 1 -> 4 -> 3 -> 2 -> 5
+Explanation 1:
+ In the first example, we want to reverse the highlighted part of the given linked list : 1 -> 2 -> 3 -> 4 -> 5 
+ Thus, the output is 1 -> 4 -> 3 -> 2 -> 5 
+ 
+Input 2:
+ A = 1 -> 2 -> 3 -> 4 -> 5
+ B = 1
+ C = 5
+Output 2: 5 -> 4 -> 3 -> 2 -> 1
+Explanation 2:
+ In the second example, we want to reverse the highlighted part of the given linked list : 1 -> 4 -> 3 -> 2 -> 5  
+ Thus, the output is 5 -> 4 -> 3 -> 2 -> 1 
+ 
+ /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+void reverse(ListNode* h){
+    ListNode* prev = nullptr;
+    ListNode* curr = h;
+    ListNode* n = nullptr;
+    while(curr){
+        n = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = n;
+    }
+}
+
+ListNode* Solution::reverseBetween(ListNode* A, int B, int C) {
+    if(!A || (B <= 0 && C <= 0)) return A;
+    if(!A->next) return A;
+    int count = 0;
+    ListNode* first = nullptr;
+    ListNode* last = nullptr;
+    ListNode* from = nullptr;
+    ListNode* to = nullptr;
+    ListNode* trav = A;
+
+    while(trav){
+        count++;
+        if(count < B)
+            first = trav;
+        if(count == B)
+            from = trav;
+        if(count == C){
+            to = trav;
+            last = to->next;
+            to->next = nullptr;
+            break;
+        }
+        trav = trav->next;
+    }
+
+    reverse(from);
+    first ? first->next = to : A = to;
+    from->next = last;
+    return A;
+}
