@@ -1,0 +1,25 @@
+Unique 2D points
+Given a 2D array A of integer points on a 2D plane. Find and return the number of unique points in the array.
+The ith point in the array is (A[i][0], A[i][1])
+
+Input:
+A = [[5, 6],
+     [2, 8],
+     [-1, -1],
+     [2, -3],
+     [2, 8],
+     [7, 7],
+     [2, -3]]
+Output:
+5
+Explanation:
+There are 5 unique points in the given array.
+
+int Solution::solve(vector<vector<int> > &A) {
+    set<string> s;
+    
+    for(int i = 0; i < A.size(); ++i){
+        s.insert(to_string(A[i][0]) + "," + to_string(A[i][1]));
+    }
+    return s.size();
+}
